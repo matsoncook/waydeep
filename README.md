@@ -19,3 +19,12 @@ C:\Users\markc\.cache\huggingface\hub\models--codellama--CodeLlama-7b-Python-hf.
 :: Use CUDA 12.1 - only if building in c++ etc
 set CUDA_PATH="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1"
 set PATH=%CUDA_PATH%\bin;%CUDA_PATH%\libnvvp;%PATH%
+
+
+# Backend
+
+pip install fastapi websockets uvicorn
+
+## Run
+
+uvicorn server:app --host 0.0.0.0 --port 8000
