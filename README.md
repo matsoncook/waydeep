@@ -4,16 +4,18 @@ pip install transformers[torch]
 
 pip install huggingface_hub
 
+pip install transformers accelerate bitsandbytes
+pip install optimum
+pip install gptqmodel
+
+pip install gptqmodel --no-build-isolation
+
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 
-
-model.safetensors.index.json: 100%|███████████████████████████████████████████████| 25.1k/25.1k [00:00<00:00, 25.2MB/s]
-C:\dev\llama\.venv\Lib\site-packages\huggingface_hub\file_download.py:142: 
-UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store 
-duplicated files but your machine does not support them in 
+## Caching
 C:\Users\markc\.cache\huggingface\hub\models--codellama--CodeLlama-7b-Python-hf. 
-Caching files will still work but in a degraded version that might require more space on your disk. 
-This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. 
-For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
-To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. 
-In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+
+:: Use CUDA 12.1 - only if building in c++ etc
+set CUDA_PATH="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1"
+set PATH=%CUDA_PATH%\bin;%CUDA_PATH%\libnvvp;%PATH%

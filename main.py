@@ -1,5 +1,12 @@
-# Load model directly
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from src.model_very_small import Model
 
-tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
-model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+model = Model()
+model.load()
+
+input_str = input("prompt: ")
+output_str = model.input(input_str=input_str)
+print(output_str)
+
+input_str = input("prompt1: ")
+output_str = model.input(input_str=input_str)
+print(output_str)
