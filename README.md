@@ -28,3 +28,7 @@ pip install fastapi websockets uvicorn
 ## Run
 
 uvicorn server:app --host 0.0.0.0 --port 8000
+
+## Examples
+
+def fibonacci(n):
