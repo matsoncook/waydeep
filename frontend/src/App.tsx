@@ -22,11 +22,12 @@ function App() {
         const last = prev[lastIndex];
   
         if (last?.sender === 'bot') {
+
           const updated = [...prev];
-          updated[lastIndex] = { ...last, text: last.text + event.data };
+          updated[lastIndex] = { ...last, text: last.text + event.data.slice(0, -1) };
           return updated;
         } else {
-          return [...prev, { sender: 'bot', text: event.data }];
+          return [...prev, { sender: 'bot', text: '\n'+ event.data.slice(0, -1) }];
         }
       });
     };
@@ -45,7 +46,8 @@ function App() {
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
       <div style={{ marginBottom: '1rem' }}>
         {messages.map((msg, idx) => (
-          <div key={idx} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
+          
+          <div key={idx} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre' }}>
             <strong>{msg.sender === 'user' ? 'You' : 'Bot'}:</strong> {msg.text}
           </div>
         ))}
