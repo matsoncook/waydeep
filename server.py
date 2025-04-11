@@ -1,10 +1,10 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import asyncio
 
-from src.model_very_small import Model
+from src.model import Model
 
-# model = Model()
-# model.load()
+model = Model()
+model.load()
 
 app = FastAPI()
 def split_into_chunks(s, chunk_size=10):
@@ -17,8 +17,8 @@ async def websocket_endpoint(websocket: WebSocket):
             input_str = await websocket.receive_text()
             # Simulate streaming
             print(f"input_str ", input_str)
-            #output_str = model.input(input_str=input_str)
-            output_str = 'def fibonacci(n):\n    if n==1:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(10))\n\n#print(fibonacci(11))'
+            output_str = model.input(input_str=input_str)
+            #output_str = 'def fibonacci(n):\n    if n==1:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(10))\n\n#print(fibonacci(11))'
             print(f"output_str ",output_str)
             for word in split_into_chunks(output_str):
                 try:

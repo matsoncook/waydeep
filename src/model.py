@@ -1,14 +1,23 @@
+import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+
+from accelerate import init_empty_weights, load_checkpoint_and_dispatch
 
 class Model:
     def __init__(self):
         self.tokenizer = None
         self.model = None
+        self.path = 'd:/model/'
         return
 
     def load(self):
-        self.tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
-        self.model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+        # self.tokenizer = AutoTokenizer.from_pretrained( self.path+"codellama/CodeLlama-7b-Python-hf",local_files_only = True)
+        # self.model = AutoModelForCausalLM.from_pretrained( self.path+"codellama/CodeLlama-7b-Python-hf",local_files_only = True)
+
+        self.tokenizer = AutoTokenizer.from_pretrained("D:\model\codellama\CodeLlama-7b-Python-hf",
+                                                       local_files_only=True)
+        self.model = AutoModelForCausalLM.from_pretrained( "D:\model\codellama\CodeLlama-7b-Python-hf",local_files_only = True,device_map="auto",  # or use a custom device_map
+    torch_dtype=torch.float16)
 
 
 

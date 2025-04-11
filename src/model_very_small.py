@@ -15,9 +15,10 @@ class Model:
             "TheBloke/CodeLlama-7B-GPTQ",
             device_map="auto",
             low_cpu_mem_usage=True,
-            trust_remote_code=True
+            trust_remote_code=True,
+            local_files_only = True
         )
-        self.tokenizer = AutoTokenizer.from_pretrained("TheBloke/CodeLlama-7B-GPTQ")
+        self.tokenizer = AutoTokenizer.from_pretrained("TheBloke/CodeLlama-7B-GPTQ",local_files_only = True)
 
 
         # Ensure tokenizer has pad token
