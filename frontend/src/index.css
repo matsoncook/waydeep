@@ -66,3 +66,54 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+textarea {
+  /* position: fixed;
+  bottom: 0;
+  left: 0; */
+  width: 500px;
+  height: 150px;
+  padding: 10px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px; /* Rounded corners */
+  font-size: 16px;
+  resize: vertical; /* Allows vertical resizing only */
+}
+
+.bot-output {
+  width: 500px;
+  padding: 20px;
+  background-color: #f0f0f0; /* Light grey */
+  border-radius: 15px;       /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional soft shadow */
+  font-family: sans-serif;
+  white-space: normal;
+}
+
+.user-input{
+  width: 500px;
+  padding: 20px;
+
+
+  font-family: sans-serif;
+  white-space: normal;
+}
+
+
+#AirLlama {
+  font-size: 20;
+}
+
+#InputArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 0.5rem;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+

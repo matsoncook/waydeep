@@ -12,7 +12,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:8000/ws');
+    ws.current = new WebSocket('ws://ocsswe-ai-dev:8000/ws');
     ws.current.onopen = () => setIsConnected(true);
     ws.current.onclose = () => setIsConnected(false);
   
@@ -47,21 +47,25 @@ function App() {
       <div style={{ marginBottom: '1rem' }}>
         {messages.map((msg, idx) => (
           
-          <div key={idx} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre' }}>
-            <strong>{msg.sender === 'user' ? 'You' : 'Bot'}:</strong> {msg.text}
+          <div key={idx} 
+          className={msg.sender === 'bot' ? 'bot-output' : 'user-input'}
+          style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre' }} >
+            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '👩‍🎓' : '🦙'}:</strong> {msg.text}
           </div>
         ))}
       </div>
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && send()}
-        placeholder="Type a message..."
-        style={{ width: '80%' }}
-      />
-      <button onClick={send} disabled={!isConnected} style={{ marginLeft: '1rem' }}>
-        Send
-      </button>
+      <div id="InputArea">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && send()}
+          placeholder="Type a message..."
+          style={{ width: '80%' }}
+        />
+        <button onClick={send} disabled={!isConnected} style={{ marginLeft: '1rem' }}>
+          Send
+        </button>
+      </div>
     </div>
   );
 }
