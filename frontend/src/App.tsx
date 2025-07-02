@@ -43,14 +43,16 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <div style={{ marginBottom: '1rem' }}>
+    <div 
+    id="OuterDiv"
+   >
+      <div style={{ marginBottom: '1rem', flex: 1 }}>
         {messages.map((msg, idx) => (
           
           <div key={idx} 
           className={msg.sender === 'bot' ? 'bot-output' : 'user-input'}
-          style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre' }} >
-            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '👩‍🎓' : '🦙'}:</strong> {msg.text}
+          style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre-wrap' }} >
+            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '🛫' : '🐋'}:</strong> {msg.text}
           </div>
         ))}
       </div>

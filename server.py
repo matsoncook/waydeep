@@ -20,12 +20,12 @@ async def websocket_endpoint(websocket: WebSocket):
             output_str = model.input(input_str=input_str)
             #output_str = 'def fibonacci(n):\n    if n==1:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(10))\n\n#print(fibonacci(11))'
             print(f"output_str ",output_str)
-            for word in split_into_chunks(output_str):
-                try:
-                    await websocket.send_text(word + "\n")
-                    await asyncio.sleep(0.3)
-                except WebSocketDisconnect:
-                    print("Client disconnected during streaming.")
-                    return
+            # for word in split_into_chunks(output_str):
+            try:
+                await websocket.send_text(output_str + "\n")
+                await asyncio.sleep(0.3)
+            except WebSocketDisconnect:
+                print("Client disconnected during streaming.")
+                return
     except WebSocketDisconnect:
         print("Client disconnected.")
