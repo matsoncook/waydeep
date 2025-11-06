@@ -2,13 +2,16 @@ import torch
 # Load model directly
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-tokenizer = AutoTokenizer.from_pretrained("codellama/CodeLlama-7b-Python-hf")
-model = AutoModelForCausalLM.from_pretrained("codellama/CodeLlama-7b-Python-hf")
+model_id = "openai/gpt-oss-20b"
 
-# Ensure tokenizer has pad token
-if tokenizer.pad_token is None:
-    tokenizer.pad_token = tokenizer.eos_token
-    model.config.pad_token_id = tokenizer.eos_token_id
+# 1) Load with trust_remote_code so custom classes are allowed
+tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    trust_remote_code=True,
+    torch_dtype="auto",      # or torch.float16 / bfloat16 explicitly
+    device_map="auto"        # put it on your GPU if available
+)
 
     
 # Define a prompt
@@ -21,7 +24,7 @@ inputs = tokenizer(prompt, return_tensors="pt")
 outputs = model.generate(
 
     inputs["input_ids"],
-    max_new_tokens=100,   # number of tokens to generate
+    max_new_tokens=1000,   # number of tokens to generate
     temperature=0.7,      # control randomness (lower = less random)
     do_sample=True,       # set True for sampling-based generation
     top_p=0.95,           # nucleus sampling, for diverse yet coherent output

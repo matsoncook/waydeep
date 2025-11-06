@@ -1,4 +1,4 @@
-import torch
+import torch, os
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 from accelerate import init_empty_weights, load_checkpoint_and_dispatch
@@ -14,10 +14,17 @@ class Model:
         # self.tokenizer = AutoTokenizer.from_pretrained( self.path+"codellama/CodeLlama-7b-Python-hf",local_files_only = True)
         # self.model = AutoModelForCausalLM.from_pretrained( self.path+"codellama/CodeLlama-7b-Python-hf",local_files_only = True)
 
-        self.tokenizer = AutoTokenizer.from_pretrained("D:\model\codellama\CodeLlama-7b-Python-hf",
+        os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2"
+
+        model_id = "openai/gpt-oss-20b"
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id,
                                                        local_files_only=True)
-        self.model = AutoModelForCausalLM.from_pretrained( "D:\model\codellama\CodeLlama-7b-Python-hf",local_files_only = True,device_map="auto",  # or use a custom device_map
-    torch_dtype=torch.float16)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            dtype=torch.float16,  # ← use fp16 on T4, not bf16
+            device_map="auto",  # ← shard across all 3 GPUs
+            trust_remote_code=True
+        )
 
 
 
