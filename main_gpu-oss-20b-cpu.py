@@ -1,44 +1,41 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
-model_id = "openai/gpt-oss-20b"  # your repo
+#model_id = "openai/gpt-oss-20b"  # your repo
+
+model_path = r"D:\model\models--openai--gpt-oss-20b\snapshots\6cee5e81ee83917806bbde320786a8fb61efebee"
 # If you’re on GPU and the repo ships 4-bit weights, keep this; otherwise set bnb_config=None.
 bnb_config = None  # BitsAndBytesConfig(load_in_4bit=True)  # only if the model actually supports it
 
 tokenizer = AutoTokenizer.from_pretrained(
-    model_id,
+    model_path,
     use_fast=True,
-    trust_remote_code=True   # important for custom chat templates/tokenization
+    trust_remote_code=True,
+    local_files_only=True   # important for custom chat templates/tokenization
 )
 
 # Device / dtype: pick ONE of these blocks
 
 # A) CPU, safest
 device = "cpu"
-dtype = torch.float32
+dtype = torch.bfloat16
 model = AutoModelForCausalLM.from_pretrained(
-    model_id,
-    torch_dtype=dtype,
+    model_path,
+    dtype=dtype,
     low_cpu_mem_usage=True,
-    trust_remote_code=True
+    trust_remote_code=True,
+    local_files_only=True
 ).to(device)
 
-# # B) GPU, bf16 (preferred on Ampere+)
-# device = "cuda"
-# dtype = torch.bfloat16
-# model = AutoModelForCausalLM.from_pretrained(
-#     model_id,
-#     torch_dtype=dtype,
-#     device_map="auto",
-#     trust_remote_code=True,
-#     quantization_config=bnb_config   # only if the model provides 4-bit weights
-# )
+print("First parameter dtype:", next(model.parameters()).dtype)
 
-# Build a proper chat prompt using the model’s template
+
+
 messages = [
     {"role": "system", "content": "You are a helpful code review assistant."},
-    {"role": "user", "content": "Review this Python function for clarity and bugs:\n\n"
-                                "def foo(x):\n    if x==0:\n        return 1\n    return x*foo(x-1)"}
+    # {"role": "user", "content": "Review this Python function for clarity and bugs:\n\n"
+    #                             "def foo(x):\n    if x==0:\n        return 1\n    return x*foo(x-1)"}
+    {"role": "user", "content": "Can you tell me what is wrong with this code:\n\nconst char* EXE = \"exe\";const int EXELEN = sizeof(EXE);  "}
 ]
 
 prompt = tokenizer.apply_chat_template(
@@ -62,7 +59,7 @@ gen_kwargs = dict(
     eos_token_id=tokenizer.eos_token_id,
     pad_token_id=tokenizer.pad_token_id
 )
-
+#exit(0)
 with torch.no_grad():
     out = model.generate(**inputs, **gen_kwargs)
 

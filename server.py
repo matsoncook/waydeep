@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import asyncio
 
-from src.model import Model
+from src.model_gpu_oss_20b import Model
 
 model = Model()
 model.load()
