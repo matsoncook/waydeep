@@ -52,7 +52,7 @@ function App() {
           <div key={idx} 
           className={msg.sender === 'bot' ? 'bot-output' : 'user-input'}
           style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre-wrap' }} >
-            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '🛫' : '🐋'}:</strong> {msg.text}
+            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '🛫' : '🐋'}</strong> {msg.text}
           </div>
         ))}
       </div>

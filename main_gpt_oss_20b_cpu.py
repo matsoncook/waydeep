@@ -35,7 +35,8 @@ messages = [
     {"role": "system", "content": "You are a helpful code review assistant."},
     # {"role": "user", "content": "Review this Python function for clarity and bugs:\n\n"
     #                             "def foo(x):\n    if x==0:\n        return 1\n    return x*foo(x-1)"}
-    {"role": "user", "content": "Can you tell me what is wrong with this code:\n\nconst char* EXE = \"exe\";const int EXELEN = sizeof(EXE);  "}
+    #{"role": "user", "content": "Can you tell me what is wrong with this code:\n\nconst char* EXE = \"exe\";const int EXELEN = sizeof(EXE);  "}
+    {"role": "user", "content": "Can you tell me what is wrong with this C lang code:\n\nint *p = arr;\nchar *q = (char*)p;\nq += 1;\np = (int*)q;\n"}
 ]
 
 prompt = tokenizer.apply_chat_template(
@@ -51,7 +52,7 @@ if tokenizer.pad_token_id is None and tokenizer.eos_token_id is not None:
     tokenizer.pad_token_id = tokenizer.eos_token_id
 
 gen_kwargs = dict(
-    max_new_tokens=512,
+    max_new_tokens=1024,
     do_sample=True,
     temperature=0.6,   # Playground often uses 0.6–0.8; drop to 0–0.2 for deterministic
     top_p=0.9,
@@ -63,5 +64,6 @@ gen_kwargs = dict(
 with torch.no_grad():
     out = model.generate(**inputs, **gen_kwargs)
 
-text = tokenizer.decode(out[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)
+#text = tokenizer.decode(out[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)
+text = tokenizer.decode(out[0])
 print(text)
