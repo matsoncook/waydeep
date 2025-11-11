@@ -4,7 +4,23 @@ type Message = {
   sender: 'user' | 'bot';
   text: string;
 };
-
+function SmallButton() {
+  return (
+    <button
+      style={{
+        padding: "4px 8px",
+        borderRadius: "8px",
+        border: "none",
+        backgroundColor: "#007bff",
+        color: "white",
+        cursor: "pointer",
+        fontSize: "0.9rem",
+      }}
+    >
+      Click me
+    </button>
+  );
+}
 function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -46,13 +62,14 @@ function App() {
     <div 
     id="OuterDiv"
    >
+   {/*<SmallButton /> -->*/}
       <div style={{ marginBottom: '1rem', flex: 1 }}>
         {messages.map((msg, idx) => (
           
           <div key={idx} 
           className={msg.sender === 'bot' ? 'bot-output' : 'user-input'}
           style={{ textAlign: msg.sender === 'user' ? 'right' : 'left',whiteSpace: 'pre-wrap' }} >
-            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '🛫' : '🐋'}</strong> {msg.text}
+            < strong style={{ fontSize: '1.5rem' }}>{msg.sender === 'user' ? '🛫' : '🐋'}</strong>  {msg.text}
           </div>
         ))}
       </div>
