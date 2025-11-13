@@ -88,7 +88,7 @@ class Model:
             self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
 
         gen_kwargs = dict(
-            max_new_tokens=512,
+            max_new_tokens=8096,
             do_sample=True,
             temperature=0.6,  # Playground often uses 0.6–0.8; drop to 0–0.2 for deterministic
             top_p=0.9,

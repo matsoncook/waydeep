@@ -40,7 +40,7 @@ class Model:
             local_files_only=True
         ).to(self.device)
 
-        print("First parameter dtype:", next(self.model.parameters()).dtype)
+
 
 
         # Make sure eos/pad are sane
@@ -48,7 +48,7 @@ class Model:
             self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
 
         self.gen_kwargs = dict(
-            max_new_tokens=512,
+            max_new_tokens=8192, # how many new tokens to generate
             do_sample=True,
             temperature=0.6,  # Playground often uses 0.6–0.8; drop to 0–0.2 for deterministic
             top_p=0.9,
@@ -56,6 +56,8 @@ class Model:
             eos_token_id=self.tokenizer.eos_token_id,
             pad_token_id=self.tokenizer.pad_token_id
         )
+        print("First parameter dtype:", next(self.model.parameters()).dtype)
+        print("Context length: ", self.model.config.max_position_embeddings)
 
     def input(self,input_str: str) -> str:
 
