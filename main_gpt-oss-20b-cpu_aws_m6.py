@@ -2,10 +2,10 @@ import torch,os
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 #model_id = "openai/gpt-oss-20b"  # your repo
-os.environ["HF_HOME"] = "/models"
-os.environ["TRANSFORMERS_CACHE"] = "/models/hf/transformers"
+# os.environ["HF_HOME"] = "/models"
+# os.environ["TRANSFORMERS_CACHE"] = "/models/hf/transformers"
 
-model_path = "openai/gpt-oss-20b"
+model_path = r"/mount/gpt-oss-20b-dequant-bf16"
 # If you’re on GPU and the repo ships 4-bit weights, keep this; otherwise set bnb_config=None.
 bnb_config = None  # BitsAndBytesConfig(load_in_4bit=True)  # only if the model actually supports it
 
@@ -13,7 +13,7 @@ tokenizer = AutoTokenizer.from_pretrained(
     model_path,
     use_fast=True,
     trust_remote_code=True,
-    #local_files_only=True   # important for custom chat templates/tokenization
+    local_files_only=True   # important for custom chat templates/tokenization
 )
 
 # Device / dtype: pick ONE of these blocks
@@ -26,7 +26,7 @@ model = AutoModelForCausalLM.from_pretrained(
     dtype=dtype,
     low_cpu_mem_usage=True,
     trust_remote_code=True,
-    #local_files_only=True
+    local_files_only=True
 ).to(device)
 
 print("First parameter dtype:", next(model.parameters()).dtype)
