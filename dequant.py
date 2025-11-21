@@ -4,8 +4,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # src = r"D:\model\models--openai--gpt-oss-20b\snapshots\6cee5e81ee83917806bbde320786a8fb61efebee"
 # dst = r"D:\model\gpt-oss-20b-dequant-bf16"   # new folder for dequantized weights
 
-src = r"/mount/gpt-oss-20b"
-dst = r"/mount/gpt-oss-20b-dequant-bf16"   # new folder for dequantized weights
+src = r"/models/gpt-oss-20b"
+dst = r"/models/gpt-oss-20b-dequant-bf16"   # new folder for dequantized weights
 
 tok = AutoTokenizer.from_pretrained(src, trust_remote_code=True, local_files_only=True)
 
