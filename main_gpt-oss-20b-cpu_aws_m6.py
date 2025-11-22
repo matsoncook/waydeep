@@ -1,5 +1,6 @@
 import torch,os
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+import time
 
 #model_id = "openai/gpt-oss-20b"  # your repo
 os.environ["HF_HOME"] = "/models"
@@ -62,10 +63,19 @@ gen_kwargs = dict(
     eos_token_id=tokenizer.eos_token_id,
     pad_token_id=tokenizer.pad_token_id
 )
-#exit(0)
+print("Generating")
+startTime =  time.time()
+
 with torch.no_grad():
     out = model.generate(**inputs, **gen_kwargs)
 
 #text = tokenizer.decode(out[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)
 text = tokenizer.decode(out[0])
+
+endTime =  time.time()
+
+
+
 print(text)
+
+print(f"Elapsed: {(endTime - startTime) :.2f} secs")
