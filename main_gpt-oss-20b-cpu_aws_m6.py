@@ -6,7 +6,7 @@ import time
 os.environ["HF_HOME"] = "/models"
 os.environ["TRANSFORMERS_CACHE"] = "/models/hf/transformers"
 
-model_path = r"/models/gpt-oss-20b-dequant-bf16"
+model_path = r"/models/gpt-oss-20b"
 # If you’re on GPU and the repo ships 4-bit weights, keep this; otherwise set bnb_config=None.
 bnb_config = None  # BitsAndBytesConfig(load_in_4bit=True)  # only if the model actually supports it
 
