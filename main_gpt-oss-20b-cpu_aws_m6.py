@@ -1,11 +1,12 @@
 import torch,os
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+import time
 
 #model_id = "openai/gpt-oss-20b"  # your repo
 os.environ["HF_HOME"] = "/models"
 os.environ["TRANSFORMERS_CACHE"] = "/models/hf/transformers"
 
-model_path = "openai/gpt-oss-20b"
+model_path = r"/models/gpt-oss-20b"
 # If you’re on GPU and the repo ships 4-bit weights, keep this; otherwise set bnb_config=None.
 bnb_config = None  # BitsAndBytesConfig(load_in_4bit=True)  # only if the model actually supports it
 
@@ -13,7 +14,7 @@ tokenizer = AutoTokenizer.from_pretrained(
     model_path,
     use_fast=True,
     trust_remote_code=True,
-    #local_files_only=True   # important for custom chat templates/tokenization
+    local_files_only=True   # important for custom chat templates/tokenization
 )
 
 # Device / dtype: pick ONE of these blocks
@@ -26,7 +27,7 @@ model = AutoModelForCausalLM.from_pretrained(
     dtype=dtype,
     low_cpu_mem_usage=True,
     trust_remote_code=True,
-    #local_files_only=True
+    local_files_only=True
 ).to(device)
 
 print("First parameter dtype:", next(model.parameters()).dtype)
@@ -62,10 +63,19 @@ gen_kwargs = dict(
     eos_token_id=tokenizer.eos_token_id,
     pad_token_id=tokenizer.pad_token_id
 )
-#exit(0)
+print("Generating")
+startTime =  time.time()
+
 with torch.no_grad():
     out = model.generate(**inputs, **gen_kwargs)
 
 #text = tokenizer.decode(out[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)
 text = tokenizer.decode(out[0])
+
+endTime =  time.time()
+
+
+
 print(text)
+
+print(f"Elapsed: {(endTime - startTime) :.2f} secs")
