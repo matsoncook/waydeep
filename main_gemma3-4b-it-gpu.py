@@ -9,7 +9,9 @@ os.environ["TRANSFORMERS_CACHE"] = "D:\\models"
 
 MODEL_ID = "google/gemma-3-4b-it"
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID,token=HF_TOKEN)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+
+
 
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_ID,
@@ -22,7 +24,7 @@ prompt = "Explain what a TCP socket is in simple terms."
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
 gen_kwargs = dict(
-    max_new_tokens=256,
+    max_new_tokens=4096*2,
     do_sample=True,
     temperature=0.7,
     top_p=0.9,

@@ -23,7 +23,7 @@ class Model:
 
         MODEL_ID = "google/gemma-3-4b-it"
 
-        self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID,token=HF_TOKEN)
+        self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 
         self.model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
@@ -37,7 +37,7 @@ class Model:
         inputs = self.tokenizer(input_str, return_tensors="pt").to(self.model.device)
 
         gen_kwargs = dict(
-            max_new_tokens=256,
+            max_new_tokens=4096*2,
             do_sample=True,
             temperature=0.7,
             top_p=0.9,
